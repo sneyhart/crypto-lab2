@@ -17,8 +17,7 @@ int main(int argc, char **argv)
 	if(strcmp(argv[i], "-o") == 0) out  = fopen(argv[i+1], "w");
     }
 
-    mpz_init(n); mpz_init(d); mpz_init(c); mpz_init(m); 
-    mpz_set_ui(n,0); mpz_set_ui(d,0); mpz_set_ui(c,0); mpz_set_ui(m,0);    
+    mpz_inits(n,d,c,m,NULL);
 
     fscanf(key, "%2047s", inputStr);
     fscanf(key, "%2047s", inputStr);
@@ -36,6 +35,8 @@ int main(int argc, char **argv)
     printf ("\n");
     mpz_out_str(out,10,m);
     fprintf (out,"\n");
+   
     mpz_clears(n,d,c,m,NULL);
+    fclose(key); fclose(in); fclose(out);
     return 0;
 }
