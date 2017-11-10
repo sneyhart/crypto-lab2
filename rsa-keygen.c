@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     printf("e = "); print_num(e);
 
     //solve for d
-    mpz_invert(d, e, n);
+    mpz_invert(d, e, t);
     printf("d = "); print_num(d);
 
     //output to files
