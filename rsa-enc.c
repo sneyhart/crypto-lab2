@@ -1,3 +1,8 @@
+/* Lab 2 CS483/583  *
+ *    rsa-enc.c	    *
+ *   Daniel O'Neil  *
+ *   Sam Neyhart    */
+
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
