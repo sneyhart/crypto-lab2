@@ -111,8 +111,8 @@ int main(int argc, char **argv)
     //get p, q, and n
     do{
 	mpz_urandomb(q, state, bits/2);
-//	mpz_nextprime(p,q);
-	find_prime(p,q);
+	mpz_nextprime(p,q);
+	//find_prime(p,q);
 	mpz_ui_pow_ui(e, 2, bits-1);
 	mpz_ui_pow_ui(d, 2, bits);
 	mpz_cdiv_q(t, e, p);	//keep t
@@ -120,8 +120,8 @@ int main(int argc, char **argv)
 	mpz_sub(e, n, t);
 	mpz_urandomm(d, state, e);
 	mpz_add(e, d, t);
-//	mpz_nextprime(q, e);
-	find_prime(q,e);
+	mpz_nextprime(q, e);
+	//find_prime(q,e);
 	mpz_mul(n, p, q);
 	printf("p = ");	print_num(p);
 	printf("q = ");	print_num(q); 
