@@ -17,8 +17,8 @@ bool miller_rabin_test(mpz_t d, mpz_t n)
 	mpz_init(a);
 	mpz_t b;
 	mpz_init(b);
-    gmp_randstate_t state;
-    gmp_randinit_default(state);
+    	gmp_randstate_t state;
+    	gmp_randinit_default(state);
 	mpz_sub_ui(b, n, 4);
 	mpz_urandomm(a, state, b);
 	mpz_add_ui(a,a,2);
@@ -69,7 +69,7 @@ void find_prime(mpz_t i, mpz_t j)
 	while(mpz_cmp_ui(m,0) == 0)
 	{	
 		mpz_div_ui(d,d,2);
-		mpz_mod_ui(m,n_1,2);
+		mpz_mod_ui(m,d,2);
 	}
 
 
