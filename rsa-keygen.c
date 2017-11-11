@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     gmp_randinit_default(state);
     seed = fopen("/dev/urandom", "r");
     fread(inputStr, 8, 1, seed);
-    gmp_randseed_ui(state, (unsigned int)inputStr);
+    gmp_randseed_ui(state, *((unsigned int*)inputStr));
 
     //get p, q, and n
     do{
