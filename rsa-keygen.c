@@ -1,10 +1,84 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <assert.h>
+#include <inttypes.h>
 #include "gmp.h"
 #define print_num(num) {mpz_out_str(stdout,10,num); printf("\n");}
 #define fprint_num(file, num) {mpz_out_str(file,10,num); fprintf(file, "\n");}
+
+typedef uint32_t pint;
+typedef uint64_t xint;
+
+bool miller_rabin_test(mpz_t d, mpz_t n)
+{
+	mpz_t a;
+	mpz_init(a);
+	mpz_t b;
+	mpz_init(b);
+    gmp_randstate_t state;
+    gmp_randinit_default(state);
+	mpz_sub_ui(b, n, 4);
+	mpz_urandomm(a, state, b);
+	mpz_add_ui(a,a,2);
+	
+	mpz_t x;
+	mpz_init(x);
+	mpz_powm(x, a, d, n);
+
+	mpz_t n_1;
+	mpz_init(n_1);
+	mpz_set(n_1,n);
+	mpz_sub_ui(n,n,1);
+
+	if(mpz_cmp_ui(x,1) || mpz_cmp(x,n_1))
+		return true;
+	while(mpz_cmp(d, n_1))
+	{
+		mpz_mul(x,x,x);
+		mpz_mod(x,x,n_1);
+		mpz_mul_ui(d,d,2);
+		if(mpz_cmp_ui(x,1)) 
+			return false;		
+		if(mpz_cmp(x,n_1))
+			return true;
+	}
+	return false;
+
+
+}
+
+void find_prime(mpz_t i, mpz_t j)
+{
+	mpz_t p;
+	mpz_init(p);
+	mpz_set(p,j);
+	mpz_t n_1;
+	mpz_init(n_1);
+	mpz_sub_ui(n_1, j, 1);
+
+	mpz_t d;
+	mpz_init(d);
+	mpz_set(d,n_1);
+	
+	mpz_t m;
+	mpz_init(m);
+	mpz_mod_ui(m,n_1,2);
+
+	while(mpz_cmp_ui(m,0) == 0)
+	{	
+		mpz_div_ui(d,d,2);
+		mpz_mod_ui(m,n_1,2);
+	}
+
+
+
+	while(miller_rabin_test(d, p) == 0)
+		mpz_add_ui(p,p,1);
+
+	mpz_set(i,p);
+}
 
 int main(int argc, char **argv)
 {
@@ -32,7 +106,8 @@ int main(int argc, char **argv)
     //get p, q, and n
     do{
 	mpz_urandomb(q, state, bits/2);
-	mpz_nextprime(p,q);
+//	mpz_nextprime(p,q);
+	find_prime(p,q);
 	mpz_ui_pow_ui(e, 2, bits-1);
 	mpz_ui_pow_ui(d, 2, bits);
 	mpz_cdiv_q(t, e, p);	//keep t
@@ -40,7 +115,8 @@ int main(int argc, char **argv)
 	mpz_sub(e, n, t);
 	mpz_urandomm(d, state, e);
 	mpz_add(e, d, t);
-	mpz_nextprime(q, e);
+//	mpz_nextprime(q, e);
+	find_prime(q,e);
 	mpz_mul(n, p, q);
 	printf("p = ");	print_num(p);
 	printf("q = ");	print_num(q); 
