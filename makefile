@@ -1,4 +1,4 @@
-MFLAGS = -I/usr/local/include -L/usr/local/lib -lgmp
+MFLAGS = -g -I/usr/local/include -L/usr/local/lib -lgmp
 
 
 mac:

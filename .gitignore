@@ -62,3 +62,7 @@ rsa-dec
 rsa-enc
 
 git-reg.jar
+.DS_Store
+clear
+pub
+sec
